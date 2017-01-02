@@ -1,0 +1,15 @@
+executable = clusBase.R
+universe = vanilla
+Requirements = ParallelSchedulingGroup == "stats group"
+
+arguments = condorID $(Process)
+output    = ./Rout/simuID_condorID_$(Process).Rout
+error     = ./err/simuID_condorID_$(Process).err
+log       = ./log/condor_condorID_$(Process).log
+
+notification = never
+should_transfer_files = YES
+when_to_transfer_output = ON_EXIT
+transfer_input_files = simuSettings.R,simuFun.R,simuData.R
+
+queue 10

@@ -30,9 +30,9 @@ fileNames <- fileNames[order(simuIDList)]
 
 ## summarize all the results
 resList <- lapply(fileNames, function (oneFile) {
-    load(paste(inDir, oneFile, sep = "/"))
+    load(file.path(inDir, oneFile))
     oneFile <- gsub("\\.RData", "", oneFile)
-    oneRes <- summar(eval(parse(text = oneFile)), sem = TRUE, mi = FALSE)
+    oneRes <- summar(eval(parse(text = oneFile)))
     rm(list = oneFile)
     oneRes
 })

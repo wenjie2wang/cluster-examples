@@ -1,4 +1,4 @@
-#!/bin/nohup bash
+#!/bin/bash
 chmod a+x clusBase.R
 
 # create directories

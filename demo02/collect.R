@@ -12,7 +12,6 @@
 
 
 ## define names
-baseName <- "simuID"
 inDir <- "output"
 outDir <- "fitList"
 
@@ -20,10 +19,8 @@ if (! dir.exists(outDir)) dir.create(outDir)
 
 
 ## list file names
-fileNames <- list.files(inDir,
-                        pattern = paste0(baseName,
-                                         "_[0-9][0-9]*_[0-9][0-9]*\\.RData"))
-parts <- gsub("_[0-9][0-9]*\\.RData", replacement = "", fileNames)
+fileNames <- list.files(inDir, pattern = paste0("*_[0-9]+_[0-9]+\\.RData"))
+parts <- gsub("_[0-9]+\\.RData", replacement = "", fileNames)
 outNames <- unique(parts)
 objNames <- gsub("\\.RData", replacement = "", fileNames)
 
@@ -34,7 +31,7 @@ for (iter in outNames) {
     iter2 <- which(idx)
     ## load RData files
     for (j in iter2)
-        load(paste(inDir, fileNames[j], sep = "/"))
+        load(file.path(inDir, fileNames[j]))
     ## determine the range of $(process)
     processes <- sapply(iter2, function(a) {
         gsub(paste0(parts[a], "_"), replacement = "", objNames[a])
@@ -44,6 +41,6 @@ for (iter in outNames) {
         get(objName)
     })
     assign(iter, res)
-    save(list = iter, file = paste0(outDir, "/", iter, ".RData"))
+    save(list = iter, file = paste0(file.path(outDir, iter), ".RData"))
     rm(list = objNames[idx]); gc()
 }
